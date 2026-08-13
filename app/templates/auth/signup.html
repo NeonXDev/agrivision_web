@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import outline_button %}
+
+{% block title %}Create account · AgriVision Nepal{% endblock %}
+
+{% block content %}
+  <div class="card auth-card">
+    <h1>Join AgriVision Nepal</h1>
+    <p class="text-muted">Sign-up form arrives in Stage 2.</p>
+    {{ outline_button('Back to sign in', url_for('auth.login')) }}
+  </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings · AgriVision Nepal{% endblock %}
+
+{% block content %}
+  <h1>Settings</h1>
+
+  <div class="card setting-row">
+    <strong>Dark mode</strong>
+    <label class="switch">
+      <input type="checkbox" id="dark-mode-toggle">
+      <span class="switch-slider"></span>
+    </label>
+  </div>
+
+  <div class="card">
+    <strong>Account</strong>
+    <p class="text-muted">Arrives in Stage 2.</p>
+  </div>
+
+  <div class="card">
+    <strong>About AgriVision Nepal</strong>
+    <p class="text-muted">v1.0.0 · Stage 1 scaffold (Python / Flask)</p>
+  </div>
+{% endblock %}

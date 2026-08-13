@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+build/
+dist/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment / secrets
+.env
+
+# Database
+instance/*.db
+instance/*.sqlite3
+
+# Uploaded photos (user content, not source)
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+*.log

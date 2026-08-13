@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import empty_state %}
+
+{% block title %}Results · AgriVision Nepal{% endblock %}
+
+{% block content %}
+  <h1>Results</h1>
+  {{ empty_state(
+    '🌿',
+    'Ready to identify',
+    'Plant name, scientific name, confidence, and growing tips are wired up in Stage 4. Market price follows in Stage 5.'
+  ) }}
+{% endblock %}
