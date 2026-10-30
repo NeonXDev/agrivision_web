@@ -5,7 +5,7 @@ Flask>=3.1.3
 Flask-SQLAlchemy>=3.1
 
 # Auth: sessions, login_required, current_user
-Flask-Login>=0.7.0
+Flask-Login>=0.6.3
 
 # Forms + CSRF protection (used from Stage 2 onward)
 Flask-WTF>=1.3.0
@@ -13,7 +13,11 @@ Flask-WTF>=1.3.0
 # Loads .env into os.environ
 python-dotenv>=1.0
 
-# Official Groq SDK — vision-capable chat completions (Stage 4)
+# Google Gemini SDK (Multimodal Plant Identification)
+google-genai>=1.0.0
+google-generativeai>=0.8.0
+
+# Groq SDK (Fallback vision provider)
 groq>=0.31.0
 
 # Image handling — resizing/reformatting photos before upload/API calls

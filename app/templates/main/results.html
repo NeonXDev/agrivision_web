@@ -1,13 +1,297 @@
 {% extends 'base.html' %}
 {% from '_macros.html' import empty_state %}
 
-{% block title %}Results · AgriVision Nepal{% endblock %}
+{% block title %}
+  {% if scan %}{{ scan.common_name }} · AgriVision Nepal{% else %}Results · AgriVision Nepal{% endif %}
+{% endblock %}
 
 {% block content %}
-  <h1>Results</h1>
-  {{ empty_state(
-    '🌿',
-    'Ready to identify',
-    'Plant name, scientific name, confidence, and growing tips are wired up in Stage 4. Market price follows in Stage 5.'
-  ) }}
+<div class="results">
+  {% if scan %}
+    <div class="result-nav">
+      <a href="{{ url_for('camera.index') }}" data-i18n="back_to_scan">← Identify another crop</a>
+      {% if scan.confidence %}
+        <span class="result-match"><span data-i18n="match_label">Match:</span> {{ (scan.confidence * 100)|round|int }}%</span>
+      {% endif %}
+    </div>
+
+    <h1>
+      {% if scan.common_name and scan.common_name not in ['None', 'none', 'N/A', 'n/a'] %}
+        <span class="lang-en">{{ scan.common_name }}</span>
+        <span class="lang-ne">{{ scan.common_name_ne or scan.common_name }}</span>
+      {% else %}
+        <span data-i18n="unidentified_specimen">Unidentified Specimen</span>
+      {% endif %}
+    </h1>
+    {% if scan.scientific_name and scan.scientific_name not in ['N/A', 'None', 'none', 'n/a', ''] %}
+      <p class="sci"><em>{{ scan.scientific_name }}</em></p>
+    {% endif %}
+    {% if scan.family and scan.family not in ['N/A', 'None', 'none', 'n/a', ''] %}
+      <p class="family"><span data-i18n="family_label">Family:</span> {{ scan.family }}</p>
+    {% endif %}
+
+    <!-- Top Grid: Photo + Market Price & Overview -->
+    <div class="result-grid">
+      <!-- Left: Photo -->
+      <div class="card result-photo-card">
+        <div class="result-photo-wrap">
+          <img src="{{ url_for('static', filename=scan.image_path) }}" alt="{{ scan.common_name }}">
+        </div>
+        <div class="date"><span data-i18n="recorded_date">Recorded:</span> {{ scan.scanned_at.strftime('%B %d, %Y') }}</div>
+      </div>
+
+      <!-- Right: Price & Summary -->
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        {% if scan.market_avg_price %}
+          <div class="card price-box">
+            <div class="label" data-i18n="market_today_title">Today's Wholesale Price (Nepal)</div>
+            <div class="price-big">
+              <span class="rs"><span class="lang-en">Rs.</span><span class="lang-ne">रु.</span></span>
+              <span class="amt">{{ '%.1f'|format(scan.market_avg_price) }}</span>
+              <span class="per"><span class="lang-en">{{ scan.market_unit }}</span><span class="lang-ne">प्रति के.जी.</span></span>
+            </div>
+            <div class="price-range">
+              <div>
+                <span class="rlabel" data-i18n="min_rate">Min</span>
+                <span class="rval"><span class="lang-en">Rs.</span><span class="lang-ne">रु.</span> {{ '%.1f'|format(scan.market_min_price) }}</span>
+              </div>
+              <div>
+                <span class="rlabel" data-i18n="max_rate">Max</span>
+                <span class="rval"><span class="lang-en">Rs.</span><span class="lang-ne">रु.</span> {{ '%.1f'|format(scan.market_max_price) }}</span>
+              </div>
+            </div>
+            <div class="source">
+              <span class="lang-en">{{ scan.market_name or 'Kalimati Fruits & Vegetable Market, Kathmandu' }}</span>
+              <span class="lang-ne">कालिमाटी फलफूल तथा तरकारी बजार, काठमाडौं</span>
+            </div>
+          </div>
+        {% else %}
+          <div class="card price-box">
+            <div class="label" data-i18n="no_market_data_title">Wholesale Market Rates</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 4px 0 0;" data-i18n="no_market_data_desc">
+              No commercial wholesale commodity trading data is recorded for this plant species.
+            </p>
+          </div>
+        {% endif %}
+
+        {% if scan.description or scan.description_ne %}
+          <div class="card desc-card">
+            <h3 data-i18n="crop_summary_title">Crop Summary</h3>
+            <div class="lang-en">
+              <p>{{ scan.description or scan.description_ne }}</p>
+            </div>
+            <div class="lang-ne">
+              <p>{{ scan.description_ne or scan.description }}</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Key Farming Specifications Grid (When to grow, Duration, Climate, Profit) -->
+    {% if scan.planting_season or scan.growth_duration or scan.optimal_climate or scan.profitability_window %}
+      {% set p_en = scan.profitability_window if scan.profitability_window is mapping else {} %}
+      {% set p_ne = scan.profitability_window_ne if scan.profitability_window_ne is mapping else {} %}
+      <div class="specs-grid">
+        <!-- When to Grow -->
+        <div class="spec-tile">
+          <span class="spec-label" data-i18n="planting_season_label">When to Grow</span>
+          <div class="spec-val">
+            <span class="lang-en">{{ scan.planting_season or 'Spring & Monsoon seasons in Nepal' }}</span>
+            <span class="lang-ne">{{ scan.planting_season_ne or 'नेपालमा वसन्त तथा वर्षा ऋतुमा रोप्न सकिन्छ' }}</span>
+          </div>
+        </div>
+
+        <!-- Time to Harvest -->
+        <div class="spec-tile">
+          <span class="spec-label" data-i18n="growth_duration_label">Time to Harvest</span>
+          <div class="spec-val">
+            <span class="lang-en">{{ scan.growth_duration or '75 – 95 days to maturity' }}</span>
+            <span class="lang-ne">{{ scan.growth_duration_ne or '७५ देखि ९५ दिन (बाली तयार हुने समय)' }}</span>
+          </div>
+        </div>
+
+        <!-- Optimal Climate -->
+        <div class="spec-tile">
+          <span class="spec-label" data-i18n="climate_suitability_label">Optimal Climate</span>
+          <div class="spec-val">
+            <span class="lang-en">20°C – 30°C, Warm & Sunny (Terai & Hills)</span>
+            <span class="lang-ne">२०°C – ३०°C, न्यानो र घमाइलो (तराई र पहाड)</span>
+          </div>
+        </div>
+
+        <!-- Profit Opportunity -->
+        <div class="spec-tile">
+          <span class="spec-label" data-i18n="profit_potential_label">Profit Window</span>
+          <div class="spec-val">
+            <span class="lang-en">{{ p_en.get('rating', 'High Margin in Off-Season') }}</span>
+            <span class="lang-ne">{{ p_ne.get('rating', 'बेमौसमी तथा चाडपर्वमा उच्च नाफा') }}</span>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Climate & Environmental Suitability (Favorable vs Unfavorable) -->
+    {% if scan.optimal_climate or scan.unfavorable_climate %}
+      <div class="card" style="margin-bottom: 20px;">
+        <h3 data-i18n="climate_guide_title">Climate & Environmental Suitability</h3>
+        <div class="climate-grid">
+          <!-- Favorable Climate -->
+          <div class="climate-box favorable">
+            <span class="climate-badge" data-i18n="optimal_climate_title">Favorable Climate (Where it grows properly)</span>
+            <div class="lang-en">
+              <p>{{ scan.optimal_climate or 'Thrives in warm, sunny weather (20°C–30°C) with fertile, well-draining loamy soil.' }}</p>
+            </div>
+            <div class="lang-ne">
+              <p>{{ scan.optimal_climate_ne or '२०°C देखि ३०°C सम्मको न्यानो र घमाइलो मौसममा राम्रो फस्टाउँछ। पानी नजम्ने मलिलो दोमट माटो उपयुक्त हुन्छ।' }}</p>
+            </div>
+          </div>
+
+          <!-- Unfavorable Climate -->
+          <div class="climate-box unfavorable">
+            <span class="climate-badge" data-i18n="unfavorable_climate_title">Unfavorable Climate & Risk Factors (Where it fails)</span>
+            <div class="lang-en">
+              <p>{{ scan.unfavorable_climate or 'Sensitive to prolonged frost (<10°C), heavy waterlogging, and extreme scorch heat above 36°C.' }}</p>
+            </div>
+            <div class="lang-ne">
+              <p>{{ scan.unfavorable_climate_ne or 'तुषारो, १०°C भन्दा बढी चिसो, जरामा पानी जम्ने समस्या र ३६°C भन्दा बढी चर्को खडेरीमा सप्रिन सक्दैन।' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Market Profitability & Selling Strategy -->
+    {% if scan.profitability_window or scan.profitability_window_ne %}
+      {% set p_en = scan.profitability_window if scan.profitability_window is mapping else {} %}
+      {% set p_ne = scan.profitability_window_ne if scan.profitability_window_ne is mapping else {} %}
+      <div class="card profit-card">
+        <div class="profit-header">
+          <h3 data-i18n="profitability_title">Market Profitability & When to Sell</h3>
+          {% if p_en.get('rating') or p_ne.get('rating') %}
+            <span class="profit-badge">
+              <span class="lang-en">{{ p_en.get('rating', 'Profitable Window') }}</span>
+              <span class="lang-ne">{{ p_ne.get('rating', 'उच्च नाफा सम्भावना') }}</span>
+            </span>
+          {% endif %}
+        </div>
+
+        <div class="profit-rows">
+          <!-- Peak Wholesale Price Season -->
+          {% if p_en.get('peak_months') or p_ne.get('peak_months') %}
+            <div class="profit-row">
+              <span class="p-label" data-i18n="peak_profit_label">Peak Wholesale Price Season:</span>
+              <div class="p-text">
+                <span class="lang-en">{{ p_en.get('peak_months') }}</span>
+                <span class="lang-ne">{{ p_ne.get('peak_months') }}</span>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Off-Season Advantage -->
+          {% if p_en.get('off_season_advantage') or p_ne.get('off_season_advantage') %}
+            <div class="profit-row">
+              <span class="p-label" data-i18n="off_season_label">Off-Season Advantage:</span>
+              <div class="p-text">
+                <span class="lang-en">{{ p_en.get('off_season_advantage') }}</span>
+                <span class="lang-ne">{{ p_ne.get('off_season_advantage') }}</span>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Selling Strategy & Storage -->
+          {% if p_en.get('selling_strategy') or p_ne.get('selling_strategy') %}
+            <div class="profit-row">
+              <span class="p-label" data-i18n="selling_strategy_label">Selling & Storage Strategy:</span>
+              <div class="p-text">
+                <span class="lang-en">{{ p_en.get('selling_strategy') }}</span>
+                <span class="lang-ne">{{ p_ne.get('selling_strategy') }}</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Fertilizer & Soil Nutrition Guide -->
+    {% if scan.fertilizer_guide or scan.fertilizer_guide_ne %}
+      <div class="card" style="margin-bottom: 20px;">
+        <h3 data-i18n="fertilizer_guide_title">Fertilizer & Soil Nutrition Guide</h3>
+        {% if scan.fertilizer_guide %}
+          <div class="fert-list lang-en">
+            {% for item in scan.fertilizer_guide %}
+              <div class="fert-item">
+                <span class="step-num">{{ loop.index }}</span>
+                <span>{{ item }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if scan.fertilizer_guide_ne %}
+          <div class="fert-list lang-ne">
+            {% for item in scan.fertilizer_guide_ne %}
+              <div class="fert-item">
+                <span class="step-num">{{ loop.index }}</span>
+                <span>{{ item }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- General Cultivation & Agronomy Guide -->
+    {% if scan.growing_tips or scan.growing_tips_ne %}
+      <div class="card tips-card">
+        <h3 data-i18n="agronomy_guide_title">Cultivation & Agronomy Guide</h3>
+        {% if scan.growing_tips %}
+          <div class="lang-en">
+            {% for tip in scan.growing_tips %}
+              <div class="tip">
+                <span class="dot">•</span>
+                <span>{{ tip }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if scan.growing_tips_ne %}
+          <div class="lang-ne">
+            {% for tip in scan.growing_tips_ne %}
+              <div class="tip">
+                <span class="dot">•</span>
+                <span>{{ tip }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% elif scan.growing_tips %}
+          <div class="lang-ne">
+            {% for tip in scan.growing_tips %}
+              <div class="tip">
+                <span class="dot">•</span>
+                <span>{{ tip }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Bottom Actions -->
+    <div class="result-bottom">
+      <a href="{{ url_for('camera.index') }}" class="btn-primary" data-i18n="btn_identify_another">
+        Identify Another Crop
+      </a>
+      <a href="{{ url_for('history.index') }}" class="btn-outline" data-i18n="btn_view_records">
+        View All Records
+      </a>
+    </div>
+
+  {% else %}
+    <h1>Results</h1>
+    {{ empty_state('No crop recorded yet', 'Photograph or upload an image to view botanical details and Kalimati market prices.') }}
+    <div style="max-width: 280px; margin: 20px auto 0;">
+      <a href="{{ url_for('camera.index') }}" class="btn-primary btn-block" data-i18n="btn_start_identifying">Identify a Crop</a>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

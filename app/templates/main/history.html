@@ -1,9 +1,64 @@
 {% extends 'base.html' %}
 {% from '_macros.html' import empty_state %}
 
-{% block title %}Scan History · AgriVision Nepal{% endblock %}
+{% block title %}Records · AgriVision Nepal{% endblock %}
 
 {% block content %}
-  <h1>Scan History</h1>
-  {{ empty_state('🗂️', 'No scans yet', 'Your scan history will appear here — wired up in Stage 6.') }}
+<div class="records">
+  <div class="records-header">
+    <div>
+      <h1 data-i18n="records_title">Crop Records</h1>
+      <p class="text-muted" data-i18n="records_subtitle">Previous crop identifications and Kalimati wholesale price snapshots.</p>
+    </div>
+    {% if scans %}
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <form method="POST" action="{{ url_for('history.clear') }}" onsubmit="return confirm(window.getI18nText ? window.getI18nText('clear_confirm') : 'Clear all recorded scans?');" style="margin: 0;">
+          <button type="submit" class="btn-outline btn-sm" data-i18n="btn_clear_all">Clear all</button>
+        </form>
+        <a href="{{ url_for('camera.index') }}" class="btn-primary btn-sm" data-i18n="btn_new_record">
+          New Record
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if scans %}
+    <div class="rec-grid">
+      {% for scan in scans %}
+        <a href="{{ url_for('results.view_scan', scan_id=scan.id) }}" class="rec-item">
+          <div class="rec-thumb">
+            <img src="{{ url_for('static', filename=scan.image_path) }}" alt="{{ scan.common_name }}">
+          </div>
+          <div class="rec-body">
+            <h3>
+              {% if scan.common_name and scan.common_name not in ['None', 'none', 'N/A', 'n/a'] %}
+                <span class="lang-en">{{ scan.common_name }}</span>
+                <span class="lang-ne">{{ scan.common_name_ne or scan.common_name }}</span>
+              {% else %}
+                <span data-i18n="unidentified_specimen">Unidentified Specimen</span>
+              {% endif %}
+            </h3>
+            {% if scan.scientific_name and scan.scientific_name not in ['N/A', 'None', 'none', 'n/a', ''] %}
+              <div class="rec-sci">{{ scan.scientific_name }}</div>
+            {% endif %}
+            <div class="rec-meta">
+              {% if scan.market_avg_price %}
+                <span class="rec-price">
+                  <span class="lang-en">Rs. {{ '%.1f'|format(scan.market_avg_price) }} {{ scan.market_unit }}</span>
+                  <span class="lang-ne">रु. {{ '%.1f'|format(scan.market_avg_price) }} प्रति के.जी.</span>
+                </span>
+              {% endif %}
+              <span class="rec-date">{{ scan.scanned_at.strftime('%b %d, %Y') }}</span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    {{ empty_state('No records yet', 'Take a photo or upload an image to create your first crop record.') }}
+    <div style="max-width: 280px; margin: 20px auto 0;">
+      <a href="{{ url_for('camera.index') }}" class="btn-primary btn-block" data-i18n="btn_start_identifying">Identify a Crop</a>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

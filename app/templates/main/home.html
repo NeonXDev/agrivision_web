@@ -1,16 +1,169 @@
 {% extends 'base.html' %}
-{% from '_macros.html' import primary_button %}
 
-{% block title %}Home · AgriVision Nepal{% endblock %}
+{% block title %}AgriVision Nepal · Crop Information & Kalimati Rates{% endblock %}
 
 {% block content %}
-  <h1>Namaste 🌱</h1>
-  <p class="text-muted">
-    Point your camera at a plant to identify it and see today's market price.
+<div class="home">
+  <!-- Translate whole website button -->
+  <div class="translate-banner">
+    <button type="button" class="translate-website-btn" onclick="toggleAppLanguage()">
+      <span id="home-lang-label">नेपालीमा हेर्नुहोस् (Translate to Nepali)</span>
+    </button>
+  </div>
+
+  <h1 data-i18n="home_title">AgriVision Nepal</h1>
+  <p data-i18n="home_subtitle">
+    Identify field crops, garden vegetables, and fruit plants from a photograph, and check today's wholesale rates from Kalimati and regional markets.
   </p>
 
-  <div class="hero-scan">
-    <div class="hero-icon">📷</div>
-    {{ primary_button('Scan a Plant', url_for('camera.index'), '📷') }}
+  <div class="home-actions">
+    <a href="{{ url_for('camera.index') }}" class="btn-primary" data-i18n="btn_open_cam">
+      Open Camera
+    </a>
+    <a href="{{ url_for('camera.index') }}#upload" class="btn-outline" onclick="sessionStorage.setItem('agri_mode', 'upload')" data-i18n="btn_upload_photo">
+      Upload Photo
+    </a>
   </div>
+
+  <!-- Section 1: Introduction to AgriVision Nepal -->
+  <div class="home-intro-card">
+    <h3 data-i18n="home_about_title">About AgriVision Nepal</h3>
+    <p data-i18n="home_about_p1">
+      AgriVision Nepal is an agricultural intelligence platform crafted specifically for farmers, growers, agronomists, and home gardeners across Nepal. By connecting plant visual recognition with Kalimati wholesale market data and Nepal-specific agronomic research, AgriVision bridges the gap between field observation and market economics.
+    </p>
+    <p data-i18n="home_about_p2">
+      Whether you are cultivating crops in the fertile Terai plains, mid-hill terraces, or river valleys, AgriVision helps you verify crop varieties, plan planting calendars, apply balanced fertilizers, protect against climate risks, and determine the most profitable seasons to harvest and sell.
+    </p>
+  </div>
+
+  <!-- Section 2: How to Use the Website -->
+  <div class="home-section">
+    <h2 data-i18n="how_to_use_title">How to Use AgriVision (4 Easy Steps)</h2>
+    <div class="info-rows">
+      <!-- Step 1 -->
+      <div class="info-row">
+        <div class="num">01</div>
+        <div>
+          <strong data-i18n="step1_title">1. Capture or Upload a Photo</strong>
+          <span data-i18n="step1_desc">
+            Tap 'Open Camera' to take a live photo in your field or garden, or use 'Upload Photo' to select an image from your phone or computer. Ensure leaves, flowers, or fruit are clearly visible in natural daylight.
+          </span>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="info-row">
+        <div class="num">02</div>
+        <div>
+          <strong data-i18n="step2_title">2. Instant Crop Identification</strong>
+          <span data-i18n="step2_desc">
+            Instantly discover the crop's local Nepali name (e.g. गोलभेंडा, फर्सी, काउली), standard English common name, scientific Latin classification, and botanical family.
+          </span>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="info-row">
+        <div class="num">03</div>
+        <div>
+          <strong data-i18n="step3_title">3. Agronomy, Fertilizer & Climate Guide</strong>
+          <span data-i18n="step3_desc">
+            Check when to plant in Nepal (Falgun–Chaitra vs. Jestha–Ashadh), days to maturity, favorable temperatures, risk warnings (frost, waterlogging), and a step-by-step fertilizer plan (FYM, DAP, Potash, Urea).
+          </span>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="info-row">
+        <div class="num">04</div>
+        <div>
+          <strong data-i18n="step4_title">4. Market Rates & Selling Strategy</strong>
+          <span data-i18n="step4_desc">
+            Review today's wholesale benchmark price from Kalimati Wholesale Market, Kathmandu. Discover peak profit months, off-season tunnel advantages, and storage advice to sell at highest rates.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Core Features & Capabilities Grid -->
+  <div class="home-section">
+    <h2 data-i18n="features_section_title">Core Features & Capabilities</h2>
+    <div class="home-feat-grid">
+      <!-- Feat 1 -->
+      <div class="feat-card">
+        <span class="feat-num">01</span>
+        <h4 data-i18n="feat1_title">Crop Identification</h4>
+        <p data-i18n="feat1_desc">Visual identification of field crops, vegetables, fruits, and leafy greens across Nepal.</p>
+      </div>
+
+      <!-- Feat 2 -->
+      <div class="feat-card">
+        <span class="feat-num">02</span>
+        <h4 data-i18n="feat2_title">Kalimati Wholesale Rates</h4>
+        <p data-i18n="feat2_desc">Daily benchmark wholesale pricing (Min, Max, Average per kg) from Kathmandu's central market.</p>
+      </div>
+
+      <!-- Feat 3 -->
+      <div class="feat-card">
+        <span class="feat-num">03</span>
+        <h4 data-i18n="feat3_title">Planting & Harvest Calendar</h4>
+        <p data-i18n="feat3_desc">Seasonal timelines tailored for Terai, Valleys, and Mid-Hills (spring and monsoon seasons).</p>
+      </div>
+
+      <!-- Feat 4 -->
+      <div class="feat-card">
+        <span class="feat-num">04</span>
+        <h4 data-i18n="feat4_title">Balanced Fertilizer Guide</h4>
+        <p data-i18n="feat4_desc">Clear dosages for Farmyard Manure (FYM), DAP, Potash base application, and Urea top-dressing.</p>
+      </div>
+
+      <!-- Feat 5 -->
+      <div class="feat-card">
+        <span class="feat-num">05</span>
+        <h4 data-i18n="feat5_title">Climate & Risk Warnings</h4>
+        <p data-i18n="feat5_desc">Optimal growing temperatures (20°C–30°C) versus cold frost, waterlogging, and blight hazards.</p>
+      </div>
+
+      <!-- Feat 6 -->
+      <div class="feat-card">
+        <span class="feat-num">06</span>
+        <h4 data-i18n="feat6_title">Market Timing & Profit Outlook</h4>
+        <p data-i18n="feat6_desc">Insights into peak price months, festival demand windows, and off-season storage advantages.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Tips for Best Results -->
+  <div class="home-section">
+    <h2 data-i18n="tips_section_title">Tips for Accurate Results</h2>
+    <div class="home-tips-card">
+      <div class="home-tips-list">
+        <div class="home-tip-item">
+          <span class="tip-dot">—</span>
+          <span data-i18n="tip1_text">Take photos in bright, natural daylight rather than in dim indoor light.</span>
+        </div>
+        <div class="home-tip-item">
+          <span class="tip-dot">—</span>
+          <span data-i18n="tip2_text">Get close to distinctive plant parts like leaves, flowers, or fruit rather than a distant panorama.</span>
+        </div>
+        <div class="home-tip-item">
+          <span class="tip-dot">—</span>
+          <span data-i18n="tip3_text">Switch anytime between English and Nepali using the toggle button in the top banner or navbar.</span>
+        </div>
+        <div class="home-tip-item">
+          <span class="tip-dot">—</span>
+          <span data-i18n="tip4_text">Revisit your previous scans and price history anytime from the 'Records' page.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="home-bottom-cta">
+    <a href="{{ url_for('camera.index') }}" class="btn-primary" style="display: inline-block; padding: 10px 24px;" data-i18n="btn_get_started">
+      Start Identifying a Crop
+    </a>
+  </div>
+</div>
 {% endblock %}

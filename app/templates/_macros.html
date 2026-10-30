@@ -1,24 +1,20 @@
-{# Reusable template snippets, the Jinja2 equivalent of the reusable
-   Flutter widgets from the earlier build (EmptyState, PrimaryButton). #}
+{# Reusable minimal template macros #}
 
-{% macro empty_state(icon, title, subtitle='') %}
+{% macro empty_state(title, subtitle='') %}
 <div class="empty-state">
-  <div class="icon">{{ icon }}</div>
   <h2>{{ title }}</h2>
   {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
 </div>
 {% endmacro %}
 
-{% macro primary_button(text, href, icon='') %}
+{% macro primary_button(text, href) %}
 <a href="{{ href }}" class="btn-primary btn-block">
-  {%- if icon %}<span>{{ icon }}</span>{% endif -%}
   {{ text }}
 </a>
 {% endmacro %}
 
-{% macro outline_button(text, href, icon='') %}
+{% macro outline_button(text, href) %}
 <a href="{{ href }}" class="btn-outline btn-block">
-  {%- if icon %}<span>{{ icon }}</span>{% endif -%}
   {{ text }}
 </a>
 {% endmacro %}

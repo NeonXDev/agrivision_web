@@ -1,15 +1,27 @@
 {% extends 'base.html' %}
-{% from '_macros.html' import primary_button %}
 
 {% block title %}Sign in · AgriVision Nepal{% endblock %}
 
 {% block content %}
   <div class="card auth-card">
-    <h1>Welcome to AgriVision Nepal</h1>
-    <p class="text-muted">Sign-in form arrives in Stage 2 (Authentication).</p>
-    {{ primary_button('Continue to Home (dev)', url_for('home.index')) }}
+    <h1 style="font-size: 1.4rem; margin-bottom: 8px;">Sign in</h1>
+    <p class="text-muted" style="font-size: 0.88rem; margin-bottom: 20px;">Access your saved crop records and preferences.</p>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; text-align: left; margin-bottom: 16px;">
+      <div>
+        <label style="display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">Email address</label>
+        <input type="email" placeholder="farmer@example.com" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 0.9rem; background: var(--surface); color: inherit;">
+      </div>
+      <div>
+        <label style="display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">Password</label>
+        <input type="password" placeholder="••••••••" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 0.9rem; background: var(--surface); color: inherit;">
+      </div>
+    </div>
+
+    <a href="{{ url_for('home.index') }}" class="btn-primary btn-block">Sign in</a>
+
     <p class="auth-footer">
-      Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign up</a>
+      Don't have an account? <a href="{{ url_for('auth.signup') }}" style="color: var(--green); font-weight: 600;">Sign up</a>
     </p>
   </div>
 {% endblock %}

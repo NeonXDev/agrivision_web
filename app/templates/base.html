@@ -8,24 +8,28 @@
   <!-- Applied before CSS loads, so there's no flash of the wrong theme. -->
   <script>
     (function () {
-      var saved = localStorage.getItem('agrivision-theme');
-      if (saved) document.documentElement.setAttribute('data-theme', saved);
+      var savedTheme = localStorage.getItem('agrivision-theme');
+      if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+      var savedLang = localStorage.getItem('agrivision-lang');
+      if (savedLang) document.documentElement.setAttribute('lang', savedLang);
     })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/lang.js') }}"></script>
   {% block head %}{% endblock %}
 </head>
 <body>
   <nav class="navbar">
-    <a href="{{ url_for('home.index') }}" class="navbar-brand">🌱 AgriVision Nepal</a>
+    <a href="{{ url_for('home.index') }}" class="navbar-brand" data-i18n="brand">AgriVision Nepal</a>
     <div class="navbar-links">
-      <a href="{{ url_for('home.index') }}">Home</a>
-      <a href="{{ url_for('history.index') }}">History</a>
-      <a href="{{ url_for('settings.index') }}">Settings</a>
-      <a href="{{ url_for('auth.login') }}">Sign in</a>
+      <a href="{{ url_for('home.index') }}" data-i18n="nav_home">Home</a>
+      <a href="{{ url_for('camera.index') }}" data-i18n="nav_scan">Identify Crop</a>
+      <a href="{{ url_for('history.index') }}" data-i18n="nav_records">Records</a>
+      <button type="button" class="lang-btn" onclick="toggleAppLanguage()" title="नेपालीमा हेर्नुहोस्">नेपाली</button>
+      <button type="button" class="theme-toggle-btn" onclick="toggleAppTheme()" aria-label="Toggle theme">Dark</button>
     </div>
   </nav>
 
