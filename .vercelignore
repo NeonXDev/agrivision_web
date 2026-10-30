@@ -1,0 +1,22 @@
+# Virtual environment
+venv/
+.venv/
+env/
+.vercel/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Git
+.git/
+.gitignore
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.log
