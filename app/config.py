@@ -13,17 +13,22 @@ class Config:
 
     # Database configuration
     _db_url = os.environ.get('DATABASE_URL')
-    if _db_url:
-        if _db_url.startswith('postgres://'):
-            _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
-        SQLALCHEMY_DATABASE_URI = _db_url
-    elif os.environ.get('VERCEL'):
-        # On Vercel serverless, root filesystem is read-only.
-        # Fall back to an ephemeral SQLite database in the system temp directory.
-        _temp_db = os.path.join(tempfile.gettempdir(), 'agrivision.db').replace('\\', '/')
-        SQLALCHEMY_DATABASE_URI = f'sqlite:///{_temp_db}'
+    if os.environ.get('VERCEL'):
+        if _db_url and not _db_url.startswith('sqlite:'):
+            if _db_url.startswith('postgres://'):
+                _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
+            SQLALCHEMY_DATABASE_URI = _db_url
+        else:
+            # On Vercel serverless, SQLite must live in /tmp ephemeral storage
+            _temp_db = os.path.join(tempfile.gettempdir(), 'agrivision.db').replace('\\', '/')
+            SQLALCHEMY_DATABASE_URI = f'sqlite:///{_temp_db}'
     else:
-        SQLALCHEMY_DATABASE_URI = 'sqlite:///agrivision.db'
+        if _db_url:
+            if _db_url.startswith('postgres://'):
+                _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
+            SQLALCHEMY_DATABASE_URI = _db_url
+        else:
+            SQLALCHEMY_DATABASE_URI = 'sqlite:///agrivision.db'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

@@ -29,3 +29,4 @@ app/static/uploads/*
 .DS_Store
 *.log
 .vercel
+.env*
