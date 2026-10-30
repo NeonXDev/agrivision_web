@@ -29,13 +29,5 @@
     const saved = localStorage.getItem(STORAGE_KEY);
     const current = saved || root.getAttribute('data-theme') || 'light';
     applyTheme(current);
-
-    const toggleCheckbox = document.getElementById('dark-mode-toggle');
-    if (toggleCheckbox) {
-      toggleCheckbox.checked = current === 'dark';
-      toggleCheckbox.addEventListener('change', () => {
-        applyTheme(toggleCheckbox.checked ? 'dark' : 'light');
-      });
-    }
   });
 })();

@@ -11,7 +11,6 @@ from flask import (
     url_for,
 )
 from flask_login import current_user
-from werkzeug.utils import secure_filename
 
 from ..extensions import db
 from ..models.scan import ScanHistory
@@ -97,14 +96,21 @@ def upload():
             return jsonify({'success': False, 'error': error_msg}), 400
         return render_template('main/camera.html', error=error_msg), 400
 
-    # Perform AI identification with Groq
-    vision_result = identify_plant(saved_path)
+    # Perform multimodal botanical and agronomic identification
+    try:
+        vision_result = identify_plant(saved_path)
+    except Exception as e:
+        current_app.logger.error(f'Identification error: {e}')
+        error_msg = 'Could not analyze this photo. Please try again with a clearer picture.'
+        if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'error': error_msg}), 500
+        return render_template('main/camera.html', error=error_msg), 500
 
-    # Look up Nepal market price
+    # Look up Nepal benchmark market price
     crop_keyword = vision_result.get('crop_keyword') or vision_result.get('common_name')
     market_result = get_price_for_crop(crop_keyword)
 
-    # Store in database
+    # Store scan record in database
     relative_img_path = f"uploads/{filename}"
     scan = ScanHistory(
         user_id=current_user.id if current_user.is_authenticated else None,
@@ -139,8 +145,16 @@ def upload():
         market_name=market_result.get('market') if market_result else None,
     )
 
-    db.session.add(scan)
-    db.session.commit()
+    try:
+        db.session.add(scan)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f'Database error saving scan: {e}')
+        error_msg = 'Failed to save crop record. Please try again.'
+        if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'error': error_msg}), 500
+        return render_template('main/camera.html', error=error_msg), 500
 
     redirect_url = url_for('results.view_scan', scan_id=scan.id)
 

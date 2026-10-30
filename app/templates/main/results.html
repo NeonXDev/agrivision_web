@@ -115,8 +115,8 @@
         <div class="spec-tile">
           <span class="spec-label" data-i18n="climate_suitability_label">Optimal Climate</span>
           <div class="spec-val">
-            <span class="lang-en">20°C – 30°C, Warm & Sunny (Terai & Hills)</span>
-            <span class="lang-ne">२०°C – ३०°C, न्यानो र घमाइलो (तराई र पहाड)</span>
+            <span class="lang-en">{{ scan.optimal_climate or '20°C – 30°C, Warm & Sunny' }}</span>
+            <span class="lang-ne">{{ scan.optimal_climate_ne or '२०°C – ३०°C, न्यानो र घमाइलो' }}</span>
           </div>
         </div>
 

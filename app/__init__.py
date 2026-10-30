@@ -16,19 +16,15 @@ def create_app(config_class: type = Config) -> Flask:
     db.init_app(app)
     login_manager.init_app(app)
 
-    from .routes.auth import auth_bp
     from .routes.camera import camera_bp
     from .routes.history import history_bp
     from .routes.home import home_bp
     from .routes.results import results_bp
-    from .routes.settings import settings_bp
 
     app.register_blueprint(home_bp)
-    app.register_blueprint(auth_bp)
     app.register_blueprint(camera_bp)
     app.register_blueprint(results_bp)
     app.register_blueprint(history_bp)
-    app.register_blueprint(settings_bp)
 
     # Import models so SQLAlchemy knows about them before create_all().
     from . import models  # noqa: F401
