@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Identify Crop · AgriVision Nepal{% endblock %}
+{% block title %}Identify Crop · AgroVision Nepal{% endblock %}
 
 {% block content %}
 <div class="scan-page">
@@ -308,7 +308,8 @@
 
   // Initialize camera or upload tab when landing on page
   window.addEventListener('DOMContentLoaded', () => {
-    const isUpload = window.location.hash === '#upload' || sessionStorage.getItem('agri_mode') === 'upload';
+    const isUpload = window.location.hash === '#upload' || sessionStorage.getItem('agro_mode') === 'upload' || sessionStorage.getItem('agri_mode') === 'upload';
+    sessionStorage.removeItem('agro_mode');
     sessionStorage.removeItem('agri_mode');
 
     if (isUpload) {

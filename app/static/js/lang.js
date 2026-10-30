@@ -1,10 +1,10 @@
-// AgriVision Nepal - Client-side Bilingual (English / Nepali) Translation Engine
+// AgroVision Nepal - Client-side Bilingual (English / Nepali) Translation Engine
 (function () {
-  const STORAGE_KEY = 'agrivision-lang';
+  const STORAGE_KEY = 'agrovision-lang';
 
   const TRANSLATIONS = {
     en: {
-      brand: "AgriVision Nepal",
+      brand: "AgroVision Nepal",
       nav_home: "Home",
       nav_scan: "Identify Crop",
       nav_records: "Records",
@@ -13,16 +13,16 @@
       lang_btn: "नेपाली",
       home_translate_btn: "नेपालीमा हेर्नुहोस् (Translate to Nepali)",
 
-      home_title: "AgriVision Nepal",
+      home_title: "AgroVision Nepal",
       home_subtitle: "Identify field crops, garden vegetables, and fruit plants from a photograph, and check today's wholesale rates from Kalimati and regional markets.",
       btn_open_cam: "Open Camera",
       btn_upload_photo: "Upload Photo",
 
       // Home Introduction & Guide
-      home_about_title: "About AgriVision Nepal",
-      home_about_p1: "AgriVision Nepal is an agricultural intelligence platform crafted specifically for farmers, growers, agronomists, and home gardeners across Nepal. By connecting plant visual recognition with Kalimati wholesale market data and Nepal-specific agronomic research, AgriVision bridges the gap between field observation and market economics.",
-      home_about_p2: "Whether you are cultivating crops in the fertile Terai plains, mid-hill terraces, or river valleys, AgriVision helps you verify crop varieties, plan planting calendars, apply balanced fertilizers, protect against climate risks, and determine the most profitable seasons to harvest and sell.",
-      how_to_use_title: "How to Use AgriVision (4 Easy Steps)",
+      home_about_title: "About AgroVision Nepal",
+      home_about_p1: "AgroVision Nepal is an agricultural intelligence platform crafted specifically for farmers, growers, agronomists, and home gardeners across Nepal. By connecting plant visual recognition with Kalimati wholesale market data and Nepal-specific agronomic research, AgroVision bridges the gap between field observation and market economics.",
+      home_about_p2: "Whether you are cultivating crops in the fertile Terai plains, mid-hill terraces, or river valleys, AgroVision helps you verify crop varieties, plan planting calendars, apply balanced fertilizers, protect against climate risks, and determine the most profitable seasons to harvest and sell.",
+      how_to_use_title: "How to Use AgroVision (4 Easy Steps)",
       step1_title: "1. Capture or Upload a Photo",
       step1_desc: "Tap 'Open Camera' to take a live photo in your field or garden, or use 'Upload Photo' to select an image from your phone or computer. Ensure leaves, flowers, or fruit are clearly visible in natural daylight.",
       step2_title: "2. Instant Crop Identification",
@@ -113,7 +113,7 @@
       empty_records_desc: "Take a photo or upload an image to create your first crop record."
     },
     ne: {
-      brand: "एग्रिभिजन नेपाल",
+      brand: "एग्रोभिजन नेपाल",
       nav_home: "गृहपृष्ठ",
       nav_scan: "बाली पहिचान",
       nav_records: "अभिलेखहरू",
@@ -122,14 +122,14 @@
       lang_btn: "English",
       home_translate_btn: "View in English (अंग्रेजीमा हेर्नुहोस्)",
 
-      home_title: "एग्रिभिजन नेपाल",
+      home_title: "एग्रोभिजन नेपाल",
       home_subtitle: "कुनै पनि बाली, तरकारी वा फलफूलको तस्विर खिचेर बिरुवा पहिचान गर्नुहोस् र कालिमाटी तथा स्थानीय थोक बजारको आजको दरभाउ हेर्नुहोस्।",
       btn_open_cam: "क्यामेरा खोल्नुहोस्",
       btn_upload_photo: "तस्विर अपलोड गर्नुहोस्",
 
       // Home Introduction & Guide
-      home_about_title: "एग्रिभिजन नेपालको परिचय",
-      home_about_p1: "एग्रिभिजन नेपाल नेपाली कृषक, कृषि प्राविधिक, विद्यार्थी तथा करेसाबारीका लागि तयार पारिएको एक भरपर्दो डिजिटल कृषि सहयोगी हो। यसले बिरुवा पहिचान, कालिमाटी थोक बजारको दरभाउ र नेपालको हावापानी सुहाउँदो प्राविधिक सल्लाहलाई एकै ठाउँमा उपलब्ध गराउँछ।",
+      home_about_title: "एग्रोभिजन नेपालको परिचय",
+      home_about_p1: "एग्रोभिजन नेपाल नेपाली कृषक, कृषि प्राविधिक, विद्यार्थी तथा करेसाबारीका लागि तयार पारिएको एक भरपर्दो डिजिटल कृषि सहयोगी हो। यसले बिरुवा पहिचान, कालिमाटी थोक बजारको दरभाउ र नेपालको हावापानी सुहाउँदो प्राविधिक सल्लाहलाई एकै ठाउँमा उपलब्ध गराउँछ।",
       home_about_p2: "तराईको समथर फाँटदेखि मध्य पहाड र उपत्यकाका किसानहरूले बालीको नाम पहिचान गर्न, रोप्ने सही समय र मलखादको मात्रा बुझ्न, मौसम अनुसारको जोखिमबाट जोगिन र बढी नाफा हुने समयमा उत्पादन बेच्न यो उपयोगी छ।",
       how_to_use_title: "वेबसाइट कसरी प्रयोग गर्ने (४ सजिला चरणहरू)",
       step1_title: "१. बालीको तस्विर खिच्नुहोस् वा अपलोड गर्नुहोस्",
@@ -224,7 +224,7 @@
   };
 
   function getCurrentLang() {
-    return localStorage.getItem(STORAGE_KEY) || 'en';
+    return localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrivision-lang') || 'en';
   }
 
   function applyLanguage(lang) {

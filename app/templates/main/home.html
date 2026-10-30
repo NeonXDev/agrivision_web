@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}AgriVision Nepal · Crop Information & Kalimati Rates{% endblock %}
+{% block title %}AgroVision Nepal · Crop Information & Kalimati Rates{% endblock %}
 
 {% block content %}
 <div class="home">
@@ -11,7 +11,7 @@
     </button>
   </div>
 
-  <h1 data-i18n="home_title">AgriVision Nepal</h1>
+  <h1 data-i18n="home_title">AgroVision Nepal</h1>
   <p data-i18n="home_subtitle">
     Identify field crops, garden vegetables, and fruit plants from a photograph, and check today's wholesale rates from Kalimati and regional markets.
   </p>
@@ -20,25 +20,25 @@
     <a href="{{ url_for('camera.index') }}" class="btn-primary" data-i18n="btn_open_cam">
       Open Camera
     </a>
-    <a href="{{ url_for('camera.index') }}#upload" class="btn-outline" onclick="sessionStorage.setItem('agri_mode', 'upload')" data-i18n="btn_upload_photo">
+    <a href="{{ url_for('camera.index') }}#upload" class="btn-outline" onclick="sessionStorage.setItem('agro_mode', 'upload')" data-i18n="btn_upload_photo">
       Upload Photo
     </a>
   </div>
 
-  <!-- Section 1: Introduction to AgriVision Nepal -->
+  <!-- Section 1: Introduction to AgroVision Nepal -->
   <div class="home-intro-card">
-    <h3 data-i18n="home_about_title">About AgriVision Nepal</h3>
+    <h3 data-i18n="home_about_title">About AgroVision Nepal</h3>
     <p data-i18n="home_about_p1">
-      AgriVision Nepal is an agricultural intelligence platform crafted specifically for farmers, growers, agronomists, and home gardeners across Nepal. By connecting plant visual recognition with Kalimati wholesale market data and Nepal-specific agronomic research, AgriVision bridges the gap between field observation and market economics.
+      AgroVision Nepal is an agricultural intelligence platform crafted specifically for farmers, growers, agronomists, and home gardeners across Nepal. By connecting plant visual recognition with Kalimati wholesale market data and Nepal-specific agronomic research, AgroVision bridges the gap between field observation and market economics.
     </p>
     <p data-i18n="home_about_p2">
-      Whether you are cultivating crops in the fertile Terai plains, mid-hill terraces, or river valleys, AgriVision helps you verify crop varieties, plan planting calendars, apply balanced fertilizers, protect against climate risks, and determine the most profitable seasons to harvest and sell.
+      Whether you are cultivating crops in the fertile Terai plains, mid-hill terraces, or river valleys, AgroVision helps you verify crop varieties, plan planting calendars, apply balanced fertilizers, protect against climate risks, and determine the most profitable seasons to harvest and sell.
     </p>
   </div>
 
   <!-- Section 2: How to Use the Website -->
   <div class="home-section">
-    <h2 data-i18n="how_to_use_title">How to Use AgriVision (4 Easy Steps)</h2>
+    <h2 data-i18n="how_to_use_title">How to Use AgroVision (4 Easy Steps)</h2>
     <div class="info-rows">
       <!-- Step 1 -->
       <div class="info-row">

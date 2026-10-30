@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}AgriVision Nepal{% endblock %}</title>
+  <title>{% block title %}AgroVision Nepal{% endblock %}</title>
 
   <!-- Applied before CSS loads, so there's no flash of the wrong theme. -->
   <script>
     (function () {
-      var savedTheme = localStorage.getItem('agrivision-theme');
+      var savedTheme = localStorage.getItem('agrovision-theme') || localStorage.getItem('agrivision-theme');
       if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
-      var savedLang = localStorage.getItem('agrivision-lang');
+      var savedLang = localStorage.getItem('agrovision-lang') || localStorage.getItem('agrivision-lang');
       if (savedLang) document.documentElement.setAttribute('lang', savedLang);
     })();
   </script>
@@ -23,7 +23,7 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="{{ url_for('home.index') }}" class="navbar-brand" data-i18n="brand">AgriVision Nepal</a>
+    <a href="{{ url_for('home.index') }}" class="navbar-brand" data-i18n="brand">AgroVision Nepal</a>
     <div class="navbar-links">
       <a href="{{ url_for('home.index') }}" data-i18n="nav_home">Home</a>
       <a href="{{ url_for('camera.index') }}" data-i18n="nav_scan">Identify Crop</a>

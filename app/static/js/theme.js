@@ -1,6 +1,6 @@
 // Dark/Light theme toggle with localStorage persistence
 (function () {
-  const STORAGE_KEY = 'agrivision-theme';
+  const STORAGE_KEY = 'agrovision-theme';
   const root = document.documentElement;
 
   function applyTheme(theme) {
@@ -26,7 +26,7 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrivision-theme');
     const current = saved || root.getAttribute('data-theme') || 'light';
     applyTheme(current);
   });

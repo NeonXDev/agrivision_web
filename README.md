@@ -1,4 +1,4 @@
-# AgriVision Nepal 🌱 (Python / Flask)
+# AgroVision Nepal 🌱 (Python / Flask)
 
 AI-powered plant identification and live Nepal market prices, built for farmers
 and growers. Point a camera at a plant, get its name, scientific name, a
@@ -32,7 +32,7 @@ stubbed behind clean interfaces until their stage lands.
 ## Folder structure
 
 ```
-agrivision_web/
+agrovision_web/
 ├── run.py                    entry point (loads .env, creates the app)
 ├── requirements.txt
 ├── app/

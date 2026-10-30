@@ -9,7 +9,7 @@ class Config:
     """Central app configuration read from environment variables (.env).
     """
 
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'agrivision-nepal-local-secret-key')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'agrovision-nepal-local-secret-key')
 
     # Database configuration
     _db_url = os.environ.get('DATABASE_URL')
@@ -20,7 +20,7 @@ class Config:
             SQLALCHEMY_DATABASE_URI = _db_url
         else:
             # On Vercel serverless, SQLite must live in /tmp ephemeral storage
-            _temp_db = os.path.join(tempfile.gettempdir(), 'agrivision.db').replace('\\', '/')
+            _temp_db = os.path.join(tempfile.gettempdir(), 'agrovision.db').replace('\\', '/')
             SQLALCHEMY_DATABASE_URI = f'sqlite:///{_temp_db}'
     else:
         if _db_url:
@@ -28,7 +28,7 @@ class Config:
                 _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
             SQLALCHEMY_DATABASE_URI = _db_url
         else:
-            SQLALCHEMY_DATABASE_URI = 'sqlite:///agrivision.db'
+            SQLALCHEMY_DATABASE_URI = 'sqlite:///agrovision.db'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
